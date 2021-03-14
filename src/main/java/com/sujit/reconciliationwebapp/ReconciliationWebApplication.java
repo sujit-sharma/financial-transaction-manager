@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ReconciliationWebAppApplication {
+public class ReconciliationWebApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ReconciliationWebAppApplication.class, args);
+		SpringApplication.run(ReconciliationWebApplication.class, args);
 	}
 
 }

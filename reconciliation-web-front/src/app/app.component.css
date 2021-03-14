@@ -1,0 +1,20 @@
+.h2{
+  alignment: center;
+}
+
+.header2{
+  text-align: center;
+  color: darkblue;
+}
+.sect1 {
+  height: 600px;
+  width: 900px;
+  color: #fff;background-image: url("images/reconcil-02.jpg");
+  background-size: 100% ;
+  background-size: auto;
+  overflow: auto;
+}
+.insideImage{
+  margin-top: 20%;
+  margin-left: 10%;
+}
