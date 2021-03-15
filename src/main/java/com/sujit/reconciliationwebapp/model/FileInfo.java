@@ -13,11 +13,13 @@ import javax.persistence.Id;
 @Setter
 @RequiredArgsConstructor
 @Entity
-public class FileData {
+public class FileInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long userId;
 
     private String sourceFileUrl;
 
