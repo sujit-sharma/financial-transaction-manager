@@ -19,8 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -28,6 +27,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ReconciliationController {
     private final ReconciliationService reconciliationService;
+    private Long interactionId;
 
     @GetMapping("/test")
     public ResponseEntity<String> testApi() {
@@ -41,16 +41,24 @@ public class ReconciliationController {
         log.info("Uploading " + fileType + " file");
         String fileName = displayName + "." + fileType.toLowerCase();
         String fileUrl = fileSave(fileName,fileProp, multipartFile);
-        if(isSource) {
-            fileInfo.setSourceFileUrl(fileUrl);
+        fileInfo.setUserId(12L);//get from database
+        List<String> fileUrls = fileInfo.getFileUrls();
+        if(fileUrls == null){
+            fileUrls = new ArrayList<>();
         }
-        else {
-            fileInfo.setTargetFileUrl(fileUrl);
-        }
-        fileInfo.setUserId(12L);
+        fileUrls.add(fileUrl);
+        fileInfo.setFileUrls(fileUrls);
         reconciliationService.saveFileSystemInfo(fileInfo);
         log.info("File uploaded success");
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/compare")
+    public ResponseEntity<Map<String, List<Object>>> compareTransaction() {
+
+        Map<String, List<Object>> comparisonResult = reconciliationService.reconcile();
+        log.info("Reconciliation completed");
+        return ResponseEntity.ok(comparisonResult);
     }
 
     private String fileSave(String displayFileName, String fileProperty, MultipartFile multipartFile) {

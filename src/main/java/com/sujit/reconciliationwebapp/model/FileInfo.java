@@ -1,13 +1,12 @@
 package com.sujit.reconciliationwebapp.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,9 +20,6 @@ public class FileInfo {
 
     private Long userId;
 
-    private String sourceFileUrl;
-
-    private String targetFileUrl;
-
-    private String destinationDir;
+    @ElementCollection
+    private List<String> fileUrls;
 }
