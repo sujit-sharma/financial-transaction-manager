@@ -1,6 +1,5 @@
 package com.sujit.reconciliationwebapp.util.channel;
 
-
 import com.sujit.reconciliationwebapp.model.Transaction;
 import com.sujit.reconciliationwebapp.util.parser.Parser;
 

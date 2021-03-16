@@ -1,8 +1,10 @@
 package com.sujit.reconciliationwebapp.controller;
 
+import com.sujit.reconciliationwebapp.constraint.DaoType;
 import com.sujit.reconciliationwebapp.exception.ApiError;
 import com.sujit.reconciliationwebapp.exception.ViolationException;
 import com.sujit.reconciliationwebapp.model.FileInfo;
+import com.sujit.reconciliationwebapp.model.Transaction;
 import com.sujit.reconciliationwebapp.service.ReconciliationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,11 +56,10 @@ public class ReconciliationController {
     }
 
     @PostMapping("/compare")
-    public ResponseEntity<Map<String, List<Object>>> compareTransaction() {
-
-        Map<String, List<Object>> comparisonResult = reconciliationService.reconcile();
+    public ResponseEntity<Map<DaoType, List<Transaction>>> compareTransaction() {
+        Map<DaoType, List<Transaction>> comparisonResult = reconciliationService.reconcile();
         log.info("Reconciliation completed");
-        return ResponseEntity.ok(comparisonResult);
+        return ResponseEntity.ok( comparisonResult);
     }
 
     private String fileSave(String displayFileName, String fileProperty, MultipartFile multipartFile) {

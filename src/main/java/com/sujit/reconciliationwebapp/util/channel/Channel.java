@@ -1,6 +1,6 @@
 package com.sujit.reconciliationwebapp.util.channel;
 
-import com.sujit.dataformat.Transaction;
+import com.sujit.reconciliationwebapp.model.Transaction;
 
 import java.util.List;
 

@@ -41,9 +41,9 @@ public class ReconciliationService {
 
     public static final String COMMA = ",";
 
-    public void reconcile() {
+    public Map<DaoType, List<Transaction>> reconcile() {
+        Map<DaoType, List<Transaction>> result = new LinkedHashMap<>();
         arrangeDataThenApplyReconciliation();
-        Map<DaoType, ReconciliationDAO> daoMap = getReconciliationDao();
         for (Iterator<Transaction> sourceItr = sourceList.listIterator(); sourceItr.hasNext(); ) {
             Transaction sourceTrans = sourceItr.next();
 
@@ -51,23 +51,22 @@ public class ReconciliationService {
                 Transaction targetTrans = targetItr.next();
                 if (sourceTrans.getTransId().equals(targetTrans.getTransId())) {
                     if (sourceTrans.isMatched(targetTrans)) {
-                        daoMap.get(DaoType.MATCHING).saveRow(csvLine(sourceTrans, ""));
+                        result.getOrDefault(DaoType.MATCHING, new ArrayList<>()).add(sourceTrans);
                         sourceItr.remove();
                     } else {
-                        daoMap.get(DaoType.MISMATCHING).saveRow(csvLine(sourceTrans, "SOURCE"));
+                        result.getOrDefault(DaoType.MISMATCHING, new ArrayList<>()).add(sourceTrans);
                         sourceItr.remove();
-                        daoMap.get(DaoType.MISMATCHING).saveRow(csvLine(targetTrans, "TARGET"));
+                        result.getOrDefault(DaoType.MISMATCHING, new ArrayList<>()).add(targetTrans);
                     }
                     targetItr.remove();
                 }
             }
         }
         sourceList.forEach(
-                transaction -> daoMap.get(DaoType.MISSING).saveRow(csvLine(transaction, "SOURCE")));
+                transaction -> result.getOrDefault(DaoType.MISSING, new ArrayList<>()).add(transaction));
         targetList.forEach(
-                transaction -> daoMap.get(DaoType.MISSING).saveRow(csvLine(transaction, "TARGET")));
-        Logger.getGlobal()
-                .info(() -> String.format("Result files are available in directory %s ", destinationDir));
+                transaction -> result.getOrDefault(DaoType.MISSING, new ArrayList<>()).add(transaction));
+        return result;
     }
 
     private Map<DaoType, ReconciliationDAO> getReconciliationDao() {
@@ -87,7 +86,7 @@ public class ReconciliationService {
 
     private ReconciliationDAO createReconciliationDao(String fileName) {
         return new ReconciliationDAOImpl(
-                new FileSystemChannel(new ApacheCsvParser(), new File(destinationDir, fileName)));
+                new FileSystemChannel(new ApacheCsvParser(), new File(fileName)));
     }
 
 
@@ -130,6 +129,6 @@ public class ReconciliationService {
     }
 
     public Map<String, List<Object>> reconciliate() {
-
+        return null;
     }
 }

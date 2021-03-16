@@ -2,14 +2,16 @@ package com.sujit.reconciliationwebapp.util.parser;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.sujit.dataformat.JsonTransaction;
-import com.sujit.dataformat.Transaction;
+import com.sujit.reconciliationwebapp.model.JsonTransaction;
+import com.sujit.reconciliationwebapp.model.Transaction;
 
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class GoogleJsonParser implements Parser {
