@@ -6,13 +6,13 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { FileUploadComponent } from './file-upload/file-upload.component';
+import { Source } from './source/source';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    FileUploadComponent
+    Source
   ],
     imports: [
         BrowserModule,

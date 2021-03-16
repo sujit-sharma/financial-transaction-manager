@@ -1,0 +1,29 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
+    <h2 class="text-center mb-3 mt-4">Reconciliation | Login</h2>
+
+    <!--    <div class="row jumbotron">-->
+    <div [class.jumbotron]="form" >
+
+      <div class="col-sm-6 form-group">
+        <label for="filename">Source </label>
+        <input type="text" class="form-control" formControlName="dispalyName" name="filename" id="filename" placeholder="Display name !" required>
+      </div>
+
+      <div class="col-sm-6 form-group">
+        <label for="fileType">File Type</label>
+        <select formControlName="fileType" name="fileType" id="fileType" >
+          <option *ngFor="let type of fileTypesList ">
+            {{type}}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-6 form-group mb-0">
+        <button class="btn btn-primary float-right" type="submit">Submit</button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
