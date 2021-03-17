@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "./login/login.component";
-import {Source} from "./source/source";
+import {SourceComponent} from "./source/source.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent},
-  { path: 'fileUpload', component: Source }
+  { path: 'sourceFile', component: SourceComponent }
 ];
 
 @NgModule({

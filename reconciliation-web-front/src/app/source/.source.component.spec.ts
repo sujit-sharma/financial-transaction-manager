@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Source } from './source';
+import { SourceComponent } from './source.component';
 
 describe('FileUploadComponent', () => {
-  let component: Source;
-  let fixture: ComponentFixture<Source>;
+  let component: SourceComponent;
+  let fixture: ComponentFixture<SourceComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ Source ]
+      declarations: [ SourceComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Source);
+    fixture = TestBed.createComponent(SourceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
