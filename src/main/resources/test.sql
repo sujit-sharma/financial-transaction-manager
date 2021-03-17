@@ -7,4 +7,4 @@ create table testing(
 
 insert into testing (name, email) values('sujit', 'sujit@gmail.com');
 
-select * from testing;
+select * from user_entity;

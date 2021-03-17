@@ -9,11 +9,13 @@ import com.sujit.reconciliationwebapp.util.channel.FileSystemChannel;
 import com.sujit.reconciliationwebapp.util.parser.Parser;
 import com.sujit.reconciliationwebapp.util.parser.ParserFactory;
 import com.sujit.reconciliationwebapp.util.parser.ParserType;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ReconciliationUtils {
 
 

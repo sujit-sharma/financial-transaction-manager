@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid ) {
       const response = await this.authService.login(this.loginForm.value).toPromise();
       localStorage.setItem('authToken', response.token);
-      this.router.navigate(['/fileUpload']).then();
+      this.router.navigate(['/sourceFile']).then();
     }
   }
 

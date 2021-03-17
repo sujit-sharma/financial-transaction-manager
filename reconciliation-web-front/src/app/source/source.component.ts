@@ -12,7 +12,7 @@ export class SourceComponent implements OnInit {
   // @ts-ignore
   form: FormGroup;
   fileTypesList : string[] = ['Select File Type', 'JSON' , 'CSV'];
-
+  fileName = '';
   fileToUpload: File | null | undefined;
   public formData = new FormData();
   ReqJson: any = {};
@@ -50,4 +50,5 @@ export class SourceComponent implements OnInit {
     this.formData.append( 'Info', JSON.stringify( this.ReqJson ) )
 
   }
+
 }

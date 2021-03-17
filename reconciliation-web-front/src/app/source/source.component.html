@@ -1,6 +1,6 @@
 <div class="container">
   <form [formGroup]="form" (ngSubmit)="submitForm()">
-    <h2 class="text-center mb-3 mt-4">Reconciliation | Login</h2>
+    <h2 class="text-center mb-3 mt-4">Upload Source File</h2>
 
     <!--    <div class="row jumbotron">-->
     <div [class.jumbotron]="form" >
@@ -18,14 +18,15 @@
             </option>
           </select>
       </div>
-      <div class="col-sm-6 form-group">
-        <label for="file">File:</label><br /> <input type="file" id="file" >
-        <button class="badge-primary col-md-2" >Browse</button>
+      <div id="upload_button" class="col-sm-6">
+        <label>
+          <input type="file" ngf-select ng-model="new_files" ng-change="fs.uploadFiles(new_files)" multiple>
+          <span class="btn btn-primary">Upload files</span>
+        </label>
       </div>
       <div class="col-sm-6 form-group mb-0">
         <button class="btn btn-primary float-right" type="submit">Next</button>
       </div>
-
     </div>
   </form>
 </div>
