@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
@@ -25,11 +26,12 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                     return cors;
                 }).and().csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/user/login").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic().disable().formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        http.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 

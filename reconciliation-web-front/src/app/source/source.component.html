@@ -1,5 +1,5 @@
 <div class="container">
-  <form [formGroup]="form" (ngSubmit)="submitForm()">
+  <form [formGroup]="form" (ngSubmit)="submitForm($event)">
     <h2 class="text-center mb-3 mt-4">Upload Source File</h2>
 
     <!--    <div class="row jumbotron">-->
@@ -18,10 +18,11 @@
             </option>
           </select>
       </div>
-      <div id="upload_button" class="col-sm-6">
-        <label>
-          <input type="file" ngf-select ng-model="new_files" ng-change="fs.uploadFiles(new_files)" multiple>
-          <span class="btn btn-primary">Upload files</span>
+      <div  class="col-sm-6">
+        <label >
+          <input type="file" formControlName="file" ngf-select ng-model="new_files" ng-change="fs.uploadFiles(new_files)"
+                 multiple accept=".json,.csv" (change)="upload($event)">
+          <span class="btn btn-primary">Browse</span>
         </label>
       </div>
       <div class="col-sm-6 form-group mb-0">

@@ -7,18 +7,20 @@ import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { SourceComponent } from './source/source.component';
+import { TargetComponent } from './target/target.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    SourceComponent
+    SourceComponent,
+    TargetComponent
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

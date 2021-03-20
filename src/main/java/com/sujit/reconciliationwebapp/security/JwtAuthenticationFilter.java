@@ -1,4 +1,4 @@
-package com.sujit.petservice.security;
+package com.sujit.reconciliationwebapp.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
