@@ -1,0 +1,41 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
+    <h2 class="text-center mb-3 mt-4">Upload Source File</h2>
+
+    <!--    <div class="row jumbotron">-->
+    <div [class.jumbotron]="form" >
+
+      <div class="col-sm-4">
+        <table border="2" class="col-sm-12 tabH " >
+          <thead class="badge-primary text-center">Source</thead>
+          <td > Name: <br><br> Type:  <br><br><br><br></td>
+
+        </table>
+      </div>
+      <div class="col-sm-4 float float-right takeUp">
+        <table border="2" class="col-sm-12 tabH " >
+          <thead class="badge-primary text-center">Target</thead>
+          <td > Name: <br><br> Type:  <br><br><br><br></td>
+
+        </table>
+      </div>
+      <br><br><br>
+
+      <div class="form-row align-items-center col-sm-12 ">
+        <label  for="file-type">Result Files Format:</label>
+        <select class="custom-select mr-sm-2" formControlName="fileType" name="file-type" id="file-type" >
+          <option *ngFor="let type of fileTypesList ">
+            {{type}}
+          </option>
+        </select>
+      </div>
+      <br><br><br>
+      <div class="col-sm-12 form-group mb-0 allBtn ">
+        <button class="btn btn-warning float-left " routerLink="/sourceFile">Cancel</button>
+        <button class="btn btn-primary float-right" type="submit">Compare</button>
+        <button class="btn badge-dark float-sm-right backBtn" routerLink="/targetFile">Back</button>
+      </div>
+    </div>
+  </form>
+</div>
+

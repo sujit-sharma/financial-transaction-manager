@@ -9,6 +9,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { SourceComponent } from './source/source.component';
 import { TargetComponent } from './target/target.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { CompareComponent } from './compare/compare.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     LoginComponent,
     SourceComponent,
     TargetComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    CompareComponent
   ],
     imports: [
         BrowserModule,
