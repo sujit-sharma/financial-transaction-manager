@@ -8,13 +8,15 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { SourceComponent } from './source/source.component';
 import { TargetComponent } from './target/target.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SourceComponent,
-    TargetComponent
+    TargetComponent,
+    NotFoundComponent
   ],
     imports: [
         BrowserModule,
