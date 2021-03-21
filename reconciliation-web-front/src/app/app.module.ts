@@ -10,6 +10,7 @@ import { SourceComponent } from './source/source.component';
 import { TargetComponent } from './target/target.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CompareComponent } from './compare/compare.component';
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CompareComponent } from './compare/compare.component';
     SourceComponent,
     TargetComponent,
     NotFoundComponent,
-    CompareComponent
+    CompareComponent,
+    ResultComponent
   ],
     imports: [
         BrowserModule,
