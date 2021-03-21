@@ -12,6 +12,14 @@ export class CompareComponent implements OnInit {
   form!: FormGroup;
   fileTypesList : string[] = ['Select File Type', 'JSON' , 'CSV'];
 
+  sourceFileName = localStorage.getItem('sourceFileName');
+  sourceFileType = localStorage.getItem('sourceFileType');
+  targetFileName = localStorage.getItem('targetFileName');
+  targetFileType = localStorage.getItem('targetFileType');
+
+
+
+
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private fileHandleService: FileHandleService
@@ -19,7 +27,7 @@ export class CompareComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      'fileType': this.formBuilder.control('', Validators.required)
+      'fileType': this.formBuilder.control('', Validators.required),
     });
   }
 

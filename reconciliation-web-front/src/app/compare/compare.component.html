@@ -1,21 +1,20 @@
 <div class="container">
   <form [formGroup]="form" (ngSubmit)="submitForm()">
-    <h2 class="text-center mb-3 mt-4">Upload Source File</h2>
+    <h2 class="text-center mb-3 mt-4">Provided Data Files</h2>
 
     <!--    <div class="row jumbotron">-->
     <div [class.jumbotron]="form" >
-
       <div class="col-sm-4">
-        <table border="2" class="col-sm-12 tabH " >
+        <table border="2"  bordercolor="secondary" class="col-sm-12" >
           <thead class="badge-primary text-center">Source</thead>
-          <td > Name: <br><br> Type:  <br><br><br><br></td>
+          <td > Name: {{sourceFileName}} <br><br> Type: {{sourceFileType}} <br><br><br><br></td>
 
         </table>
       </div>
       <div class="col-sm-4 float float-right takeUp">
-        <table border="2" class="col-sm-12 tabH " >
-          <thead class="badge-primary text-center">Target</thead>
-          <td > Name: <br><br> Type:  <br><br><br><br></td>
+        <table border="2" bordercolor="secondary" class="col-sm-12 tabH " >
+          <thead class="badge-info text-center">Target</thead>
+          <td > Name: {{targetFileName}}<br><br> Type: {{targetFileType}} <br><br><br><br></td>
 
         </table>
       </div>

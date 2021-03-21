@@ -44,6 +44,8 @@ export class SourceComponent implements OnInit {
       formData.append('file', this.selectedFile);
       const response = await this.fileHandleService.fileUpload(formData).toPromise();
       console.log('File Upload Success');
+      localStorage.setItem('sourceFileName', value.displayName);
+      localStorage.setItem('sourceFileType', value.fileType);
       this.router.navigate(['/targetFile']);
     }
 

@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'sourceFile', component: SourceComponent, canActivate: [AuthGuard]},
   { path: 'targetFile', component: TargetComponent, canActivate: [AuthGuard]},
-  { path: 'compare', component: CompareComponent },
+  { path: 'compare', component: CompareComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent},
 
 ];
