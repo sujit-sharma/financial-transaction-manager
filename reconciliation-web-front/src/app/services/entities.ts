@@ -4,3 +4,11 @@ export interface FileUploadEntity {
   displayName: string;
   file: any;
 }
+
+export interface MatchEntity {
+  sn: number;
+  transactionId: string;
+  amount : number;
+  currency: string;
+  valueDate: string;
+}

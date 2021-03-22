@@ -2,12 +2,9 @@ package com.sujit.reconciliationwebapp.controller;
 
 import com.sujit.reconciliationwebapp.dto.LoginDto;
 import com.sujit.reconciliationwebapp.dto.LoginResponse;
-import com.sujit.reconciliationwebapp.repository.UserRepository;
 import com.sujit.reconciliationwebapp.security.TokenProvider;
-import com.sujit.reconciliationwebapp.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

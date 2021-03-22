@@ -7,6 +7,7 @@ import {TargetComponent} from "./target/target.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {CompareComponent} from "./compare/compare.component";
 import {ResultComponent} from "./result/result.component";
+import {Test1Component} from "./test1/test1.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,8 @@ const routes: Routes = [
   { path: 'targetFile', component: TargetComponent, canActivate: [AuthGuard]},
   { path: 'compare', component: CompareComponent, canActivate: [AuthGuard] },
   { path: 'result', component: ResultComponent},
+
+  { path: 'test', component: Test1Component},
   { path: '**', component: NotFoundComponent},
 
 ];

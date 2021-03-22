@@ -11,9 +11,6 @@ import com.sujit.reconciliationwebapp.util.ReconciliationUtils;
 import com.sujit.reconciliationwebapp.util.channel.Channel;
 import com.sujit.reconciliationwebapp.util.channel.FileSystemChannel;
 import com.sujit.reconciliationwebapp.util.parser.ApacheCsvParser;
-import com.sujit.reconciliationwebapp.util.parser.Parser;
-import com.sujit.reconciliationwebapp.util.parser.ParserFactory;
-import com.sujit.reconciliationwebapp.util.parser.ParserType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -111,7 +108,7 @@ public class ReconciliationService {
         return decimalFormat.format(amount);
     }
     public void arrangeDataThenApplyReconciliation() {
-        FileInfo fileInfo = fileInfoRepository.findAllByUserId(12L).get();
+        FileInfo fileInfo = fileInfoRepository.findAllByUserId(1l).get();
         List<String> fileUrlSet = fileInfo.getFileUrls();
         String source = fileUrlSet.get(fileUrlSet.size()-1);
         String target = fileUrlSet.get(fileUrlSet.size()-2);

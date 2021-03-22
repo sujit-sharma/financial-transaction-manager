@@ -34,7 +34,7 @@ export class CompareComponent implements OnInit {
   async submitForm() {
     console.log("request submitted for file comparison")
     if(this.form.valid) {
-      const response = await this.fileHandleService.doCompare(this.form.value).toPromise();
+      const response = await this.fileHandleService.doCompare(this.form.value.fileType).toPromise();
       console.log('Comparison Success Success');
       this.router.navigate(['/result']);
     }

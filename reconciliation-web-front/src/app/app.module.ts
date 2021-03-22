@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +13,9 @@ import { TargetComponent } from './target/target.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CompareComponent } from './compare/compare.component';
 import { ResultComponent } from './result/result.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSortModule} from "@angular/material/sort";
+import { Test1Component } from './test1/test1.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +25,20 @@ import { ResultComponent } from './result/result.component';
     TargetComponent,
     NotFoundComponent,
     CompareComponent,
-    ResultComponent
+    ResultComponent,
+    Test1Component,
+
+
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatTabsModule,
+        MatTableModule,
+        MatSortModule
     ],
   providers: [],
   bootstrap: [AppComponent]
