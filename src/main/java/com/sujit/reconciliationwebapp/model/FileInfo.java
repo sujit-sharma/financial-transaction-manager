@@ -1,25 +1,24 @@
 package com.sujit.reconciliationwebapp.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
-public class FileInfo {
+public class FileInfo implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String username;
 
-    private Long userId;
+    private String address;
 
     @ElementCollection
     private List<String> fileUrls;
+
 }

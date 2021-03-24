@@ -5,11 +5,13 @@ import com.sujit.reconciliationwebapp.exception.ApiError;
 import com.sujit.reconciliationwebapp.exception.ViolationException;
 import com.sujit.reconciliationwebapp.model.FileInfo;
 import com.sujit.reconciliationwebapp.model.Transaction;
+import com.sujit.reconciliationwebapp.repository.FileInfoRepository;
 import com.sujit.reconciliationwebapp.service.ReconciliationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,23 +31,23 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ReconciliationController {
     private final ReconciliationService reconciliationService;
-    private Long interactionId;
-
-    @GetMapping("/test")
-    public ResponseEntity<String> testApi() {
-        return ResponseEntity.ok("Hello Reconciliation test !");
-    }
+    private final FileInfoRepository fileInfoRepository;
 
     @PostMapping(value = "/fileUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadFile(String fileType, boolean isSource, String displayName, @RequestPart("file") MultipartFile multipartFile) {
-        FileInfo fileInfo = new FileInfo();
+
         String fileProp = isSource? "source": "target";
         log.info("Uploading " + fileType + " file");
         String fileName = displayName + "." + fileType.toLowerCase();
         String fileUrl = fileSave(fileName,fileProp, multipartFile);
-        fileInfo.setUserId(12L);//get from database
+        FileInfo fileInfo = fileInfoRepository.findFirstByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElse(null);
+        if(fileInfo == null) {
+            fileInfo = new FileInfo();
+            fileInfo.setUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+
+        }
         List<String> fileUrls = fileInfo.getFileUrls();
-        if(fileUrls == null){
+        if(fileUrls == null) {
             fileUrls = new ArrayList<>();
         }
         fileUrls.add(fileUrl);
@@ -82,4 +84,5 @@ public class ReconciliationController {
             throw new ViolationException(ioException, new ApiError("image", "Error while saving image"));
         }
     }
+
 }

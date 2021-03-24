@@ -15,3 +15,7 @@ docker_run:
 
 docker_rm_run:
 	docker-compose rm -f -s -v && docker-compose up -d && watch "docker ps -a"
+
+docker_stop_rm: docker stop $(docker ps -a -q) && docker system prune
+
+docker_stop: docker stop $(docker ps -a -q)

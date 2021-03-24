@@ -8,11 +8,11 @@ import com.sujit.reconciliationwebapp.model.FileInfo;
 import com.sujit.reconciliationwebapp.model.Transaction;
 import com.sujit.reconciliationwebapp.repository.FileInfoRepository;
 import com.sujit.reconciliationwebapp.util.ReconciliationUtils;
-import com.sujit.reconciliationwebapp.util.channel.Channel;
 import com.sujit.reconciliationwebapp.util.channel.FileSystemChannel;
 import com.sujit.reconciliationwebapp.util.parser.ApacheCsvParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -39,6 +39,7 @@ public class ReconciliationService {
 
     public Map<DaoType, List<Transaction>> reconcile() {
         Map<DaoType, List<Transaction>> result = new LinkedHashMap<>();
+        List<Transaction> tempList;
         arrangeDataThenApplyReconciliation();
         for (Iterator<Transaction> sourceItr = sourceList.listIterator(); sourceItr.hasNext(); ) {
             Transaction sourceTrans = sourceItr.next();
@@ -47,12 +48,18 @@ public class ReconciliationService {
                 Transaction targetTrans = targetItr.next();
                 if (sourceTrans.getTransId().equals(targetTrans.getTransId())) {
                     if (sourceTrans.isMatched(targetTrans)) {
-                        result.getOrDefault(DaoType.MATCHING, new ArrayList<>()).add(sourceTrans);
+                        tempList = result.getOrDefault(DaoType.MATCHING, new ArrayList<>());
+                                tempList.add(sourceTrans);
+                                result.put(DaoType.MATCHING, tempList);
                         sourceItr.remove();
                     } else {
-                        result.getOrDefault(DaoType.MISMATCHING, new ArrayList<>()).add(sourceTrans);
+                        tempList = result.getOrDefault(DaoType.MISMATCHING, new ArrayList<>());
+                            tempList.add(sourceTrans);
+                            result.put(DaoType.MISMATCHING, tempList);
                         sourceItr.remove();
-                        result.getOrDefault(DaoType.MISMATCHING, new ArrayList<>()).add(targetTrans);
+                        tempList = result.getOrDefault(DaoType.MISMATCHING, new ArrayList<>());
+                                tempList.add(targetTrans);
+                                result.put(DaoType.MISMATCHING, tempList);
                     }
                     targetItr.remove();
                 }
@@ -85,9 +92,6 @@ public class ReconciliationService {
                 new FileSystemChannel(new ApacheCsvParser(), new File(fileName)));
     }
 
-
-
-
     private String csvLine(Transaction transaction, String source) {
         String txnRow =
                 transaction.getTransId()
@@ -108,19 +112,22 @@ public class ReconciliationService {
         return decimalFormat.format(amount);
     }
     public void arrangeDataThenApplyReconciliation() {
-        FileInfo fileInfo = fileInfoRepository.findAllByUserId(1l).get();
-        List<String> fileUrlSet = fileInfo.getFileUrls();
-        String source = fileUrlSet.get(fileUrlSet.size()-1);
-        String target = fileUrlSet.get(fileUrlSet.size()-2);
-        try {
-            sourceList = reconciliationUtils.accessData(source);
-            targetList = reconciliationUtils.accessData(target);
-        }
-        catch (IllegalFileFormatException illegalFileFormatException){
-            log.error("An IllegalFileFormatException occures" + illegalFileFormatException.getMessage());
-        }
-        catch (Exception Exception) {
-            log.info("An Exception occurs while accessing file" + Exception.getMessage());
+//        Set<String> testSet = new HashSet<>();
+//        testSet.add("some/urls");
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        FileInfo fileInfo =  fileInfoRepository.findFirstByUsername(user.toString()).get(); //.orElse(new FileInfo(null, "test", null,testSet)); //fileInfoRepository.findAllByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).get();
+        List<String> fileUrlList = fileInfo.getFileUrls();
+        if(fileUrlList.size() > 1) {
+            String source = fileUrlList.get(fileUrlList.size() - 1);
+            String target = fileUrlList.get(fileUrlList.size() - 2);
+            try {
+                sourceList = reconciliationUtils.accessData(source);
+                targetList = reconciliationUtils.accessData(target);
+            } catch (IllegalFileFormatException illegalFileFormatException) {
+                log.error("An IllegalFileFormatException occurs" + illegalFileFormatException.getMessage());
+            } catch (Exception Exception) {
+                log.info("An Exception occurs while accessing file" + Exception.getMessage());
+            }
         }
     }
 
