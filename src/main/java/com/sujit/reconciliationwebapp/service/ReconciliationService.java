@@ -29,6 +29,7 @@ public class ReconciliationService {
 
     private List<Transaction> sourceList;
     private List<Transaction> targetList;
+    Map<DaoType, List<Transaction>> result;
 
     public void saveFileSystemInfo(FileInfo fileInfo ) {
         log.info("saving file information on database");
@@ -38,7 +39,7 @@ public class ReconciliationService {
     public static final String COMMA = ",";
 
     public Map<DaoType, List<Transaction>> reconcile() {
-        Map<DaoType, List<Transaction>> result = new LinkedHashMap<>();
+        result = new LinkedHashMap<>();
         List<Transaction> tempList;
         arrangeDataThenApplyReconciliation();
         for (Iterator<Transaction> sourceItr = sourceList.listIterator(); sourceItr.hasNext(); ) {
@@ -48,28 +49,27 @@ public class ReconciliationService {
                 Transaction targetTrans = targetItr.next();
                 if (sourceTrans.getTransId().equals(targetTrans.getTransId())) {
                     if (sourceTrans.isMatched(targetTrans)) {
-                        tempList = result.getOrDefault(DaoType.MATCHING, new ArrayList<>());
-                                tempList.add(sourceTrans);
-                                result.put(DaoType.MATCHING, tempList);
+                        addTransBasedOnType(DaoType.MATCHING, sourceTrans);
                         sourceItr.remove();
                     } else {
-                        tempList = result.getOrDefault(DaoType.MISMATCHING, new ArrayList<>());
-                            tempList.add(sourceTrans);
-                            result.put(DaoType.MISMATCHING, tempList);
+                        addTransBasedOnType(DaoType.MISMATCHING, sourceTrans);
                         sourceItr.remove();
-                        tempList = result.getOrDefault(DaoType.MISMATCHING, new ArrayList<>());
-                                tempList.add(targetTrans);
-                                result.put(DaoType.MISMATCHING, tempList);
+                        addTransBasedOnType(DaoType.MISMATCHING, targetTrans);
                     }
                     targetItr.remove();
                 }
             }
         }
         sourceList.forEach(
-                transaction -> result.getOrDefault(DaoType.MISSING, new ArrayList<>()).add(transaction));
-        targetList.forEach(
-                transaction -> result.getOrDefault(DaoType.MISSING, new ArrayList<>()).add(transaction));
+                    missingSourceTrans -> addTransBasedOnType(DaoType.MISSING, missingSourceTrans));
+            targetList.forEach(
+                missingTargetTrans -> addTransBasedOnType(DaoType.MISSING, missingTargetTrans));
         return result;
+    }
+    private void addTransBasedOnType(DaoType daoType,  Transaction transaction) {
+        List<Transaction> transactionList = result.getOrDefault(daoType, new ArrayList<>());
+        transactionList.add(transaction);
+        result.put(daoType, transactionList);
     }
 
     private Map<DaoType, ReconciliationDAO> getReconciliationDao() {
