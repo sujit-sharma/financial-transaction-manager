@@ -3,6 +3,9 @@ package com.sujit.reconciliationwebapp.service;
 import com.sujit.reconciliationwebapp.constraint.DaoType;
 import com.sujit.reconciliationwebapp.dao.ReconciliationDAO;
 import com.sujit.reconciliationwebapp.dao.ReconciliationDAOImpl;
+import com.sujit.reconciliationwebapp.dto.DataTransferDto;
+import com.sujit.reconciliationwebapp.dto.MatchingDto;
+import com.sujit.reconciliationwebapp.dto.MissingOrMismatchingDto;
 import com.sujit.reconciliationwebapp.exception.IllegalFileFormatException;
 import com.sujit.reconciliationwebapp.model.FileInfo;
 import com.sujit.reconciliationwebapp.model.Transaction;
@@ -29,7 +32,7 @@ public class ReconciliationService {
 
     private List<Transaction> sourceList;
     private List<Transaction> targetList;
-    Map<DaoType, List<Transaction>> result;
+    Map<DaoType, List<Object>> result;
 
     public void saveFileSystemInfo(FileInfo fileInfo ) {
         log.info("saving file information on database");
@@ -38,9 +41,8 @@ public class ReconciliationService {
 
     public static final String COMMA = ",";
 
-    public Map<DaoType, List<Transaction>> reconcile() {
+    public Map<DaoType, List<Object>> reconcile() {
         result = new LinkedHashMap<>();
-        List<Transaction> tempList;
         arrangeDataThenApplyReconciliation();
         for (Iterator<Transaction> sourceItr = sourceList.listIterator(); sourceItr.hasNext(); ) {
             Transaction sourceTrans = sourceItr.next();
@@ -49,43 +51,50 @@ public class ReconciliationService {
                 Transaction targetTrans = targetItr.next();
                 if (sourceTrans.getTransId().equals(targetTrans.getTransId())) {
                     if (sourceTrans.isMatched(targetTrans)) {
-                        addTransBasedOnType(DaoType.MATCHING, sourceTrans);
+                        addTransBasedOnType(DaoType.MATCHING, sourceTrans, null);
                         sourceItr.remove();
                     } else {
-                        addTransBasedOnType(DaoType.MISMATCHING, sourceTrans);
+                        addTransBasedOnType(DaoType.MISMATCHING, sourceTrans, true);
                         sourceItr.remove();
-                        addTransBasedOnType(DaoType.MISMATCHING, targetTrans);
+                        addTransBasedOnType(DaoType.MISMATCHING, targetTrans, false);
                     }
                     targetItr.remove();
                 }
             }
         }
-        sourceList.forEach(
-                    missingSourceTrans -> addTransBasedOnType(DaoType.MISSING, missingSourceTrans));
-            targetList.forEach(
-                missingTargetTrans -> addTransBasedOnType(DaoType.MISSING, missingTargetTrans));
+        separatesMissingTransaction();
         return result;
     }
-    private void addTransBasedOnType(DaoType daoType,  Transaction transaction) {
-        List<Transaction> transactionList = result.getOrDefault(daoType, new ArrayList<>());
-        transactionList.add(transaction);
-        result.put(daoType, transactionList);
+
+    private void separatesMissingTransaction() {
+        sourceList.forEach(
+                missingSourceTrans -> addTransBasedOnType(DaoType.MISSING, missingSourceTrans,true));
+        targetList.forEach(
+                missingTargetTrans -> addTransBasedOnType(DaoType.MISSING, missingTargetTrans, false));
+    }
+    private void addTransBasedOnType(DaoType daoType,  Transaction transaction, Boolean isSource ) {
+        List<Object> transactionListDto = result.getOrDefault(daoType, new ArrayList<>());
+        if(daoType == DaoType.MATCHING) {
+            MatchingDto matchingDto = new MatchingDto();
+            matchingDto.setTransactionId(transaction.getTransId());
+            matchingDto.setAmount(transaction.getAmount());
+            matchingDto.setCurrencyCode(transaction.getCurrencyCode());
+            matchingDto.setDate(transaction.getDate());
+            transactionListDto.add(matchingDto);
+
+        }
+        else {
+            MissingOrMismatchingDto missingOrMismatchingDto = new MissingOrMismatchingDto();
+            missingOrMismatchingDto.setTransactionId(transaction.getTransId());
+            missingOrMismatchingDto.setAmount(transaction.getAmount());
+            missingOrMismatchingDto.setCurrencyCode(transaction.getCurrencyCode());
+            missingOrMismatchingDto.setDate(transaction.getDate());
+            missingOrMismatchingDto.setFoundIn(isSource? "SOURCE": "TARGET");
+            transactionListDto.add(missingOrMismatchingDto);
+        }
+        result.put(daoType, transactionListDto);
     }
 
-    private Map<DaoType, ReconciliationDAO> getReconciliationDao() {
-        Map<DaoType, ReconciliationDAO> daoMap = new LinkedHashMap<>(3);
-        ReconciliationDAO matchingDao = createReconciliationDao("MatchingTransactions.csv");
-        ReconciliationDAO mismatchingDao = createReconciliationDao("MismatchingTransactions.csv");
-        ReconciliationDAO missingDao = createReconciliationDao("MissingTransactions.csv");
-        matchingDao.saveRow("transaction id,amount,currency code,value date");
-        mismatchingDao.saveRow("found in file,transaction id,amount,currency code,value date");
-        missingDao.saveRow("found in file,transaction id,amount,currency code,value date");
-
-        daoMap.put(DaoType.MATCHING, matchingDao);
-        daoMap.put(DaoType.MISMATCHING, mismatchingDao);
-        daoMap.put(DaoType.MISSING, missingDao);
-        return daoMap;
-    }
 
     private ReconciliationDAO createReconciliationDao(String fileName) {
         return new ReconciliationDAOImpl(
@@ -112,8 +121,6 @@ public class ReconciliationService {
         return decimalFormat.format(amount);
     }
     public void arrangeDataThenApplyReconciliation() {
-//        Set<String> testSet = new HashSet<>();
-//        testSet.add("some/urls");
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         FileInfo fileInfo =  fileInfoRepository.findFirstByUsername(user.toString()).get(); //.orElse(new FileInfo(null, "test", null,testSet)); //fileInfoRepository.findAllByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).get();
         List<String> fileUrlList = fileInfo.getFileUrls();

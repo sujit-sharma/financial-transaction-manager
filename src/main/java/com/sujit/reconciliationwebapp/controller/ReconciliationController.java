@@ -1,10 +1,10 @@
 package com.sujit.reconciliationwebapp.controller;
 
 import com.sujit.reconciliationwebapp.constraint.DaoType;
+import com.sujit.reconciliationwebapp.dto.DataTransferDto;
 import com.sujit.reconciliationwebapp.exception.ApiError;
 import com.sujit.reconciliationwebapp.exception.ViolationException;
 import com.sujit.reconciliationwebapp.model.FileInfo;
-import com.sujit.reconciliationwebapp.model.Transaction;
 import com.sujit.reconciliationwebapp.repository.FileInfoRepository;
 import com.sujit.reconciliationwebapp.service.ReconciliationService;
 import lombok.RequiredArgsConstructor;
@@ -58,8 +58,8 @@ public class ReconciliationController {
     }
 
     @PostMapping("/compare")
-    public ResponseEntity<Map<DaoType, List<Transaction>>> compareTransaction() {
-        Map<DaoType, List<Transaction>> comparisonResult = reconciliationService.reconcile();
+    public ResponseEntity<Map<DaoType, List<Object>>> compareTransaction() {
+        Map<DaoType, List<Object>> comparisonResult = reconciliationService.reconcile();
         log.info("Reconciliation completed");
         return ResponseEntity.ok( comparisonResult);
     }
