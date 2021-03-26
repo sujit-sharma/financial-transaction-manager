@@ -1,7 +1,6 @@
 package com.sujit.reconciliationwebapp.controller;
 
 import com.sujit.reconciliationwebapp.constraint.DaoType;
-import com.sujit.reconciliationwebapp.dto.DataTransferDto;
 import com.sujit.reconciliationwebapp.exception.ApiError;
 import com.sujit.reconciliationwebapp.exception.ViolationException;
 import com.sujit.reconciliationwebapp.model.FileInfo;

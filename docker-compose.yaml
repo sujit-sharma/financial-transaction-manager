@@ -8,3 +8,28 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
     - 5432:5432
+
+  reconcil-back:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: sujit/reconcil-backend:latest
+    ports:
+    - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: test
+    links:
+      - db
+
+  front-end:
+    build:
+      context: reconciliation-web-front
+      dockerfile: Dockerfile
+    image: reconc-front
+    ports:
+    - 4200:80
+    links:
+      - reconcil-back
+

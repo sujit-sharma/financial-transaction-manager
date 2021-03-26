@@ -3,7 +3,6 @@ package com.sujit.reconciliationwebapp.service;
 import com.sujit.reconciliationwebapp.constraint.DaoType;
 import com.sujit.reconciliationwebapp.dao.ReconciliationDAO;
 import com.sujit.reconciliationwebapp.dao.ReconciliationDAOImpl;
-import com.sujit.reconciliationwebapp.dto.DataTransferDto;
 import com.sujit.reconciliationwebapp.dto.MatchingDto;
 import com.sujit.reconciliationwebapp.dto.MissingOrMismatchingDto;
 import com.sujit.reconciliationwebapp.exception.IllegalFileFormatException;
@@ -74,43 +73,27 @@ public class ReconciliationService {
     }
     private void addTransBasedOnType(DaoType daoType,  Transaction transaction, Boolean isSource ) {
         List<Object> transactionListDto = result.getOrDefault(daoType, new ArrayList<>());
+        MatchingDto matchingDto = null;
+        MissingOrMismatchingDto missingOrMismatchingDto = null;
         if(daoType == DaoType.MATCHING) {
-            MatchingDto matchingDto = new MatchingDto();
-            matchingDto.setTransactionId(transaction.getTransId());
-            matchingDto.setAmount(transaction.getAmount());
-            matchingDto.setCurrencyCode(transaction.getCurrencyCode());
-            matchingDto.setDate(transaction.getDate());
-            transactionListDto.add(matchingDto);
-
+            matchingDto = new MatchingDto();
+            transactionListDto.add(setAttributeToTransfer(matchingDto, transaction));
         }
         else {
-            MissingOrMismatchingDto missingOrMismatchingDto = new MissingOrMismatchingDto();
-            missingOrMismatchingDto.setTransactionId(transaction.getTransId());
-            missingOrMismatchingDto.setAmount(transaction.getAmount());
-            missingOrMismatchingDto.setCurrencyCode(transaction.getCurrencyCode());
-            missingOrMismatchingDto.setDate(transaction.getDate());
+            missingOrMismatchingDto = new MissingOrMismatchingDto();
             missingOrMismatchingDto.setFoundIn(isSource? "SOURCE": "TARGET");
-            transactionListDto.add(missingOrMismatchingDto);
+            transactionListDto.add(setAttributeToTransfer( missingOrMismatchingDto, transaction));
         }
         result.put(daoType, transactionListDto);
     }
 
+    private MatchingDto setAttributeToTransfer(MatchingDto matchingDto, Transaction transaction) {
+        matchingDto.setTransactionId(transaction.getTransId());
+        matchingDto.setAmount(transaction.getAmount());
+        matchingDto.setCurrencyCode(transaction.getCurrencyCode());
+        matchingDto.setDate(transaction.getDate());
+        return matchingDto;
 
-    private ReconciliationDAO createReconciliationDao(String fileName) {
-        return new ReconciliationDAOImpl(
-                new FileSystemChannel(new ApacheCsvParser(), new File(fileName)));
-    }
-
-    private String csvLine(Transaction transaction, String source) {
-        String txnRow =
-                transaction.getTransId()
-                        + COMMA
-                        + toAmount(transaction.getAmount())
-                        + COMMA
-                        + transaction.getCurrencyCode()
-                        + COMMA
-                        + transaction.getDate();
-        return source != null && !source.trim().isEmpty() ? (source + COMMA + txnRow) : txnRow;
     }
 
     public static String toAmount(Double amount) {
@@ -136,9 +119,5 @@ public class ReconciliationService {
                 log.info("An Exception occurs while accessing file" + Exception.getMessage());
             }
         }
-    }
-
-    public Map<String, List<Object>> reconciliate() {
-        return null;
     }
 }

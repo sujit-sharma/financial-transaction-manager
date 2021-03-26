@@ -8,10 +8,11 @@ import java.util.Currency;
 
 @Getter
 @Setter
-public class MatchingDto extends DataTransferDto {
+public class MatchingDto {
 
-    private String transactionId;
-    private Double amount;
-    private Currency currencyCode;
-    private LocalDate date;
+    protected String transactionId;
+    protected Double amount;
+    protected Currency currencyCode;
+    protected LocalDate date;
 }
+
