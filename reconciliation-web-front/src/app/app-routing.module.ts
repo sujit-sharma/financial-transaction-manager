@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "./login/login.component";
 import {SourceComponent} from "./source/source.component";
 import {AuthGuard} from "./services/auth.guard";
-import {TargetComponent} from "./target/target.component";
+import {TargetComponent} from "./target-file/target.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {CompareComponent} from "./compare/compare.component";
 import {ResultComponent} from "./result/result.component";

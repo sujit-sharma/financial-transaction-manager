@@ -9,7 +9,7 @@ import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { SourceComponent } from './source/source.component';
-import { TargetComponent } from './target/target.component';
+import { TargetComponent } from './target-file/target.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CompareComponent } from './compare/compare.component';
 import { ResultComponent } from './result/result.component';

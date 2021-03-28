@@ -1,0 +1,37 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="submitForm($event)">
+    <h2 class="text-center mb-3 mt-4">Upload Target File</h2>
+
+    <!--    <div class="row jumbotron">-->
+    <div [class.jumbotron]="form" >
+
+      <div class="col-sm-6 form-group">
+        <label for="filename">Source Name:</label>
+        <input type="text" class="form-control" formControlName="displayName" name="filename" id="filename" placeholder="Display name !" required>
+      </div>
+
+      <div class="form-row align-items-center col-sm-6">
+        <label  for="file-type">File Type:</label>
+        <select class="custom-select mr-sm-2" formControlName="fileType" name="file-type" id="file-type" >
+          <option  *ngFor="let type of fileTypesList ">
+            {{type}}
+          </option>
+        </select>
+      </div>
+      <div  class="col-sm-6">
+        <label >
+          <input type="file" formControlName="file" ngf-select ng-model="new_files" ng-change="fs.uploadFiles(new_files)"
+                 multiple accept=".json,.csv" (change)="upload($event)">
+          <span class="btn btn-primary">Browse</span>
+        </label>
+      </div>
+      <div class="col-sm-6 form-group mb-0">
+
+        <button class="btn badge-warning float-left" (click)="goBack()">Previous</button>
+
+        <button class="btn btn-primary float-right" type="submit">Next</button>
+      </div>
+    </div>
+  </form>
+</div>
+

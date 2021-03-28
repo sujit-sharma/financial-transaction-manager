@@ -1,0 +1,7 @@
+.col-sm-6{ padding:20px;
+  margin-left: 50px;
+}
+
+@media all and (min-width: 992px) {
+  .dropdown-large{ min-width:500px; }
+}
