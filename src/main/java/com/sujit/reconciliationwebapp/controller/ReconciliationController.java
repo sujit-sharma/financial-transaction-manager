@@ -56,7 +56,7 @@ public class ReconciliationController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/compare")
+    @GetMapping("/compare")
     public ResponseEntity<Map<DaoType, List<Object>>> compareTransaction() {
         Map<DaoType, List<Object>> comparisonResult = reconciliationService.reconcile();
         log.info("Reconciliation completed");

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Location } from '@angular/common';
 import {Router} from "@angular/router";
 import {FileHandleService} from "../services/file-handle.service";
 
@@ -22,7 +23,8 @@ export class CompareComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private fileHandleService: FileHandleService
+              private fileHandleService: FileHandleService,
+              private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -32,13 +34,16 @@ export class CompareComponent implements OnInit {
   }
 
   async submitForm() {
-    console.log("request submitted for file comparison")
+    console.log("request submitted for file comparison");
     if(this.form.valid) {
-      const response = await this.fileHandleService.doCompare(this.form.value.fileType).toPromise();
+      this.fileHandleService.comparisonResult = await this.fileHandleService.doCompare().toPromise();
       console.log('Comparison Success Success');
+      console.log('Result of comparison is '+JSON.stringify(this.fileHandleService.comparisonResult.MATCHING));
       this.router.navigate(['/result']);
     }
 
   }
-
+  goBack() {
+    this.location.back();
+  }
 }

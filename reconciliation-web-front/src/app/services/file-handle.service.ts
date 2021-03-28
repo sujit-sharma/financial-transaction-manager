@@ -12,6 +12,7 @@ export class FileHandleService {
   constructor(private http: HttpClient
 
   ) { }
+  comparisonResult: any;
 
   httpOptions = {
     headers: new HttpHeaders( {
@@ -26,9 +27,8 @@ export class FileHandleService {
     return this.http.post<FileUploadEntity>(`${environment.baseURL}/api/fileUpload`, formData,this.httpOptions)
   }
 
-  doCompare(value: any) {
-    return this.http.post(`${environment.baseURL}/api/compare`, value.fileType);
-
+   doCompare() {
+    return this.http.get(`${environment.baseURL}/api/compare`, this.httpOptions);
   }
 }
 

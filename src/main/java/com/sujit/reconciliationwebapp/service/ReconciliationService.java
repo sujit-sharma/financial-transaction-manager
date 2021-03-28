@@ -105,7 +105,7 @@ public class ReconciliationService {
     }
     public void arrangeDataThenApplyReconciliation() {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        FileInfo fileInfo =  fileInfoRepository.findFirstByUsername(user.toString()).get(); //.orElse(new FileInfo(null, "test", null,testSet)); //fileInfoRepository.findAllByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).get();
+        FileInfo fileInfo =  fileInfoRepository.findFirstByUsername(user.toString()).get();
         List<String> fileUrlList = fileInfo.getFileUrls();
         if(fileUrlList.size() > 1) {
             String source = fileUrlList.get(fileUrlList.size() - 1);

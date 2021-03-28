@@ -24,8 +24,7 @@ public class Transaction {
 
   public Transaction() {}
 
-  public Transaction(
-          String transId, Double amount, Currency currencyCode, String purpose, LocalDate date) {
+  public Transaction(String transId, Double amount, Currency currencyCode, String purpose, LocalDate date) {
     this.transId = transId;
     this.amount = amount;
     this.currencyCode = currencyCode;
