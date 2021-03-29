@@ -16,6 +16,7 @@ import { ResultComponent } from './result/result.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSortModule} from "@angular/material/sort";
 import { Test1Component } from './test1/test1.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,9 @@ import { Test1Component } from './test1/test1.component';
         BrowserAnimationsModule,
         MatTabsModule,
         MatTableModule,
-        MatSortModule
+        MatSortModule,
+        NgbModule
+
     ],
   providers: [],
   bootstrap: [AppComponent]

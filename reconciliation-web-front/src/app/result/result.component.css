@@ -9,3 +9,10 @@ th, td {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.toNewFile{
+  margin-right: 50px;
+}
+.download{
+  margin-right: 100px;
+}

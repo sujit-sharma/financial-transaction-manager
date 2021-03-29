@@ -104,3 +104,17 @@
 
 </div>
 
+<br><br><br>
+<div class="float-right col-sm-6">
+
+  <div class="form-row align-items-center float-right download ">
+    <select class="custom-select" formControlName="fileType" name="file-type" id="file-type" >
+      <option *ngFor="let type of fileTypesList ">
+        {{type}}
+      </option>
+    </select>
+  </div>
+  <div>
+    <button class="btn btn-light border-dark float-right col-sm-3 toNewFile" routerLink="/sourceFile">Compare new files</button>
+  </div>
+</div>

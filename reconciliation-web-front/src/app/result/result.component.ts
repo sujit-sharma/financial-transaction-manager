@@ -21,4 +21,5 @@ export class ResultComponent implements OnInit {
   matchDataSource = this.fileHandleService.comparisonResult.MATCHING;
   mismatchingDataSource = this.fileHandleService.comparisonResult.MISMATCHING;
   missingDataSource = this.fileHandleService.comparisonResult.MISSING;
+  fileTypesList: string[] = ['Downloads','JSON', 'CSV'];
 }
