@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatchEntity} from "../services/entities";
 import {FileHandleService} from "../services/file-handle.service";
 
 @Component({
@@ -23,7 +22,56 @@ export class ResultComponent implements OnInit {
   missingDataSource = this.fileHandleService.comparisonResult.MISSING;
   fileTypesList: string[] = ['Downloads','JSON', 'CSV'];
 
+  activeTab:any;
+
   downloadFile(event: any) {
-    console.log('Value get changed ...........' +event.target.value);
+    const fileType = event.target.value.toString();
+    console.log('Download request accepted for ' +fileType + ' file');
+
+    if(fileType == 'JSON') {
+      this.downloadJsonFile();
+    }
+    else {
+      this.downloadCsvFile();
+    }
+  }
+  downloadJsonFile() {
+    console.log('Downloading JSON file');
+    const filename = 'mismatching-result.json'
+    const data  = this.mismatchingDataSource;
+    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    // Create a new anchor element
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'comparison-result.json';
+    a.click();
+    a.remove();
+  }
+
+  private downloadCsvFile() {
+    const data = this.convertToCSV(this.matchDataSource);
+    const blob = new Blob([data], { type: 'text/csv' });
+    const url= window.URL.createObjectURL(blob);
+    window.open(url);
+    console.log('Download CSV file');
+  }
+
+  convertToCSV(objArray:any) {
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    var str = '';
+
+    for (var i = 0; i < array.length; i++) {
+      var line = '';
+      for (var index in array[i]) {
+        if (line != '') line += ','
+
+        line += array[i][index];
+      }
+
+      str += line + '\r\n';
+    }
+
+    return str;
   }
 }
