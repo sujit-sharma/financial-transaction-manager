@@ -22,4 +22,8 @@ export class ResultComponent implements OnInit {
   mismatchingDataSource = this.fileHandleService.comparisonResult.MISMATCHING;
   missingDataSource = this.fileHandleService.comparisonResult.MISSING;
   fileTypesList: string[] = ['Downloads','JSON', 'CSV'];
+
+  downloadFile(event: any) {
+    console.log('Value get changed ...........' +event.target.value);
+  }
 }
