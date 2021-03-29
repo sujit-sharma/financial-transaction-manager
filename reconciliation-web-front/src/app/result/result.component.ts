@@ -9,11 +9,9 @@ import {FileHandleService} from "../services/file-handle.service";
 })
 
 export class ResultComponent implements OnInit {
-  MATCHING_DATA: MatchEntity[] = [
-    { sn: 1, transactionId:'TR-47884222201',amount: 140.0,currency:'USD',valueDate:'2020-01-20' },
-    { sn: 2, transactionId:'TR-47884222203',amount: 5000.0,currency:'JOD',valueDate: '2020-01-25' }
-  ]
-  displayColumns: string[] = ['transactionId', 'amount', 'currencyCode', 'date'];
+  matchDisplayColumns: string[] = ['transactionId', 'amount', 'currencyCode', 'date'];
+  mismatchDisplayColumns: string[] = this.matchDisplayColumns.concat(['foundIn']);
+
 
   constructor(private fileHandleService: FileHandleService) { }
 

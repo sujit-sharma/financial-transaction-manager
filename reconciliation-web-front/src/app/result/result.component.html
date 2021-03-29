@@ -26,8 +26,8 @@
             <td mat-cell *matCellDef="let transaction"> {{transaction.date}} </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+          <tr mat-header-row *matHeaderRowDef="matchDisplayColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: matchDisplayColumns;"></tr>
         </table>
       </div>
 
@@ -56,8 +56,13 @@
             <td mat-cell *matCellDef="let transaction"> {{transaction.date}} </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+          <ng-container matColumnDef="foundIn">
+            <th mat-header-cell *matHeaderCellDef> Found In </th>
+            <td mat-cell *matCellDef="let transaction"> {{transaction.foundIn}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="mismatchDisplayColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: mismatchDisplayColumns;"></tr>
         </table>
       </div>
     </mat-tab>
@@ -85,8 +90,13 @@
             <td mat-cell *matCellDef="let transaction"> {{transaction.date}} </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+          <ng-container matColumnDef="foundIn">
+            <th mat-header-cell *matHeaderCellDef> Found In </th>
+            <td mat-cell *matCellDef="let transaction"> {{transaction.foundIn}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="mismatchDisplayColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: mismatchDisplayColumns"></tr>
         </table>
       </div>
     </mat-tab>
