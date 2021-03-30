@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { SourceComponent } from './source/source.component';
 import { TargetComponent } from './target-file/target.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -16,7 +16,8 @@ import { ResultComponent } from './result/result.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSortModule} from "@angular/material/sort";
 import { Test1Component } from './test1/test1.component';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+
+import { AuthInterceptorService } from "./services/auth-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -40,10 +41,15 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
         MatTabsModule,
         MatTableModule,
         MatSortModule,
-        NgbModule
 
     ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

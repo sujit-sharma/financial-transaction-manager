@@ -20,15 +20,15 @@ export class FileHandleService {
     })
   };
 
-
   public fileUpload(formData: FormData) {
 
     console.log('Processing for post request to backend with token' + this.token)
-    return this.http.post<FileUploadEntity>(`${environment.baseURL}/api/fileUpload`, formData,this.httpOptions)
+    return this.http.post<FileUploadEntity>(`${environment.baseURL}/api/fileUpload`, formData)
   }
 
    doCompare() {
-    return this.http.get(`${environment.baseURL}/api/compare`, this.httpOptions);
+    console.log('/api/compare');
+    return this.http.get(`${environment.baseURL}/api/compare`);
   }
 }
 
