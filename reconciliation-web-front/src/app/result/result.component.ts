@@ -24,36 +24,43 @@ export class ResultComponent implements OnInit {
 
   activeTab:any;
 
-  downloadFile(event: any) {
+  downloadFile(event: any, transactionType: string) {
     const fileType = event.target.value.toString();
     console.log('Download request accepted for ' +fileType + ' file');
-
+    const  dataForDownload = transactionType === 'match'? this.matchDataSource: transactionType === 'mismatch'? this.mismatchingDataSource: this.missingDataSource;
+    const fileName = transactionType;
+    console.log('Data downloading are...........  ' +JSON.stringify(dataForDownload));
     if(fileType == 'JSON') {
-      this.downloadJsonFile();
+      this.downloadJsonFile(dataForDownload, fileName);
     }
     else {
-      this.downloadCsvFile();
+      this.downloadCsvFile(dataForDownload, fileName);
     }
   }
-  downloadJsonFile() {
+  downloadJsonFile(data: any, fileName: string) {
     console.log('Downloading JSON file');
-    const filename = 'mismatching-result.json'
-    const data  = this.mismatchingDataSource;
+    fileName += '.json';
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     // Create a new anchor element
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename || 'comparison-result.json';
+    a.download = fileName || 'comparison-result.json';
     a.click();
     a.remove();
   }
 
-  private downloadCsvFile() {
-    const data = this.convertToCSV(this.matchDataSource);
+  private downloadCsvFile(data: any, fileName: string) {
+    fileName += '.csv'
+    data = this.convertToCSV(data);
     const blob = new Blob([data], { type: 'text/csv' });
     const url= window.URL.createObjectURL(blob);
-    window.open(url);
+    // window.open(url);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName || 'comparison-result.csv';
+    a.click();
+    a.remove();
     console.log('Download CSV file');
   }
 

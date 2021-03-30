@@ -29,6 +29,21 @@
           <tr mat-row *matRowDef="let row; columns: matchDisplayColumns;"></tr>
         </table>
       </div>
+      <br><br><br>
+      <div class="float-right col-sm-6">
+
+        <div class="form-row align-items-center float-right download ">
+          <select class="custom-select btn-outline-secondary" id="match-file-type" (change)="downloadFile($event, 'match')">
+            <option *ngFor="let type of fileTypesList " >
+              {{type}}
+            </option>
+          </select>
+        </div>
+        <div>
+          <button class="btn btn-light border-dark float-right col-sm-3 toNewFile" routerLink="/sourceFile">Compare new files</button>
+        </div>
+      </div>
+
 
     </mat-tab>
     <mat-tab label="Mismatch" >
@@ -64,6 +79,21 @@
           <tr mat-row *matRowDef="let row; columns: mismatchDisplayColumns;"></tr>
         </table>
       </div>
+      <br><br><br>
+      <div class="float-right col-sm-6">
+
+        <div class="form-row align-items-center float-right download ">
+          <select class="custom-select btn-outline-secondary" id="mismatch-file-type" (change)="downloadFile($event, 'mismatch')">
+            <option *ngFor="let type of fileTypesList " >
+              {{type}}
+            </option>
+          </select>
+        </div>
+        <div>
+          <button class="btn btn-light border-dark float-right col-sm-3 toNewFile" routerLink="/sourceFile">Compare new files</button>
+        </div>
+      </div>
+
     </mat-tab>
     <mat-tab label="Missing">
       <div>
@@ -98,22 +128,25 @@
           <tr mat-row *matRowDef="let row; columns: mismatchDisplayColumns"></tr>
         </table>
       </div>
+
+      <br><br><br>
+      <div class="float-right col-sm-6">
+
+        <div class="form-row align-items-center float-right download ">
+          <select class="custom-select btn-outline-secondary" id="miss-file-type" (change)="downloadFile($event,'miss')">
+            <option *ngFor="let type of fileTypesList " >
+              {{type}}
+            </option>
+          </select>
+        </div>
+        <div>
+          <button class="btn btn-light border-dark float-right col-sm-3 toNewFile" routerLink="/sourceFile">Compare new files</button>
+        </div>
+      </div>
+
+
     </mat-tab>
   </mat-tab-group>
-
 </div>
 
-<br><br><br>
-<div class="float-right col-sm-6">
 
-  <div class="form-row align-items-center float-right download ">
-    <select class="custom-select btn-outline-secondary" formControlName="fileType" name="file-type" id="file-type" (change)="downloadFile($event)">
-      <option *ngFor="let type of fileTypesList " >
-        {{type}}
-      </option>
-    </select>
-  </div>
-  <div>
-    <button class="btn btn-light border-dark float-right col-sm-3 toNewFile" routerLink="/sourceFile">Compare new files</button>
-  </div>
-</div>
