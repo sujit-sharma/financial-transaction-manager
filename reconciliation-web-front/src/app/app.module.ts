@@ -15,7 +15,6 @@ import { CompareComponent } from './compare/compare.component';
 import { ResultComponent } from './result/result.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSortModule} from "@angular/material/sort";
-import { Test1Component } from './test1/test1.component';
 
 import { AuthInterceptorService } from "./services/auth-interceptor.service";
 
@@ -28,7 +27,6 @@ import { AuthInterceptorService } from "./services/auth-interceptor.service";
     NotFoundComponent,
     CompareComponent,
     ResultComponent,
-    Test1Component,
 
 
   ],

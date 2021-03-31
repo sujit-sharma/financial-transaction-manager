@@ -1,7 +1,6 @@
-<div>
+<div *ngIf="authService.isLoggedIn()">
   <ul class="navbar-nav">
-    <a class="nav-link" routerLink="/logout" routerLinkActive="active">Logout</a> </ul>
-<!--    <a class="nav-link" style="cursor:pointer" (click)="authservice.logout()" >Logout</a> </ul>-->
+    <a class="nav-link logoutLink"  style="cursor:pointer" (click)="logout()" >Logout</a> </ul>
 </div>
 <router-outlet></router-outlet>
 

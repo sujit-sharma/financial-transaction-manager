@@ -8,7 +8,6 @@ import {NotFoundComponent} from "./not-found/not-found.component";
 import {CompareComponent} from "./compare/compare.component";
 import {ResultComponent} from "./result/result.component";
 
-
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent},
