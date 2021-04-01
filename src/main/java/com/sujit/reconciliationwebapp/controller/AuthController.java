@@ -2,6 +2,7 @@ package com.sujit.reconciliationwebapp.controller;
 
 import com.sujit.reconciliationwebapp.dto.LoginDto;
 import com.sujit.reconciliationwebapp.dto.LoginResponse;
+import com.sujit.reconciliationwebapp.model.UserActivity;
 import com.sujit.reconciliationwebapp.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,9 @@ public class AuthController {
             String token = tokenProvider.getToken();
             response.setToken(token);
             response.setMessage("Login successful");
+            //setting user Activity
+            UserActivity userActivity = new UserActivity();
+            userActivity.setUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         } catch (AuthenticationException e) {
             log.info("Invalid user/ password . Sign in Unsuccessful");
             response.setMessage("Invalid username or password");

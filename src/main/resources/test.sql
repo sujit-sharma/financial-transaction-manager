@@ -10,3 +10,5 @@ create table testing(
 insert into testing (name, email) values('sujit', 'sujit@gmail.com');
 
 select * from user_entity;
+
+select * from user_activity;

@@ -1,5 +1,6 @@
 package com.sujit.reconciliationwebapp.security;
 
+import com.sujit.reconciliationwebapp.repository.UserActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,8 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class AuthConfig extends WebSecurityConfigurerAdapter {
+    private final UserActivityRepository userActivityRepository;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
@@ -31,7 +34,8 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .and().httpBasic().disable().formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new UserActivityLoggerFilter(userActivityRepository), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthenticationFilter(), UserActivityLoggerFilter.class);
     }
 
 
