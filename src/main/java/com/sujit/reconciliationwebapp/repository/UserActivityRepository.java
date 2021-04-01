@@ -13,7 +13,10 @@ import java.util.Optional;
 public interface UserActivityRepository extends JpaRepository<UserActivity, Long> {
 
     @Query("Select ua from UserActivity ua where ua.username = ?1")
+    Optional<UserActivity> findByUsername(String username);
+
     UserActivity findFirstByUsername(String username);
-    List<UserActivity> findAllByUsername(String username);
+    List<UserActivity> findAll();
+
 
 }

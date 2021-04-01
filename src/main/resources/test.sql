@@ -12,3 +12,6 @@ insert into testing (name, email) values('sujit', 'sujit@gmail.com');
 select * from user_entity;
 
 select * from user_activity;
+select * from hit_information;
+
+select * from user_activity join hit_information hi on user_activity.username = hi.user_activity_username

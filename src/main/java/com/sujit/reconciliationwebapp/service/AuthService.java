@@ -24,6 +24,21 @@ public class AuthService {
     public void createUser(ApplicationReadyEvent applicationReadyEvent) {
         log.info("Creating Database User");
         UserEntity user = new UserEntity();
+        user.setUsername("test1");
+        user.setPassword(passwordEncoder.encode("test1"));
+        Set<String> authoritiesSet = new HashSet<>();
+        authoritiesSet.add(Authorities.ADMIN.toString());
+        authoritiesSet.add(Authorities.USER.toString());
+        user.setAuthorities(authoritiesSet);
+        userRepository.save(user);
+        log.info("Database User create Success " +user.getUsername());
+
+        createAnotherUser();
+
+    }
+
+    private void createAnotherUser() {
+        UserEntity user = new UserEntity();
         user.setUsername("test");
         user.setPassword(passwordEncoder.encode("test"));
         Set<String> authoritiesSet = new HashSet<>();

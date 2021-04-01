@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,15 +12,10 @@ import java.time.LocalDateTime;
 public class UserActivity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
     private String username;
 
-    private String activity;
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    private List<HitInformation> hitInformation;
 
-    private String requestIpAddr;
-
-    private LocalDateTime date;
 
 }
