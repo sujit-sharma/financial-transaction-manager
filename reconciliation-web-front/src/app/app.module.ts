@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSortModule} from "@angular/material/sort";
 
 import { AuthInterceptorService } from "./services/auth-interceptor.service";
+import { UserActivityComponent } from './user-activity/user-activity.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AuthInterceptorService } from "./services/auth-interceptor.service";
     NotFoundComponent,
     CompareComponent,
     ResultComponent,
+    UserActivityComponent,
 
 
   ],

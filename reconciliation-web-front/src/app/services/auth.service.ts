@@ -10,6 +10,7 @@ import jwt_decode from 'jwt-decode';
 })
 export class AuthService {
 
+  public userActivityResponse: any;
   constructor(private http: HttpClient,
               private router: Router) { }
 
@@ -49,4 +50,13 @@ export class AuthService {
     return decodedToken.exp;
   }
 
+  findUsersActivity() {
+    this.http.get(`${environment.baseURL}/api/user/activity`)
+      .subscribe((data) => {
+        this.userActivityResponse = data;
+        console.log("Request for User Activity" + JSON.stringify(this.userActivityResponse));
+        this.router.navigate(['/usersActivity']);
+      })
+
+  }
 }
