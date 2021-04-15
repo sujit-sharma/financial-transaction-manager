@@ -28,7 +28,6 @@ public class ReconciliationUtils {
         }
 
         Parser parser = ParserFactory.getParserByName(parserType.get());
-
         Channel sourceChannel = new FileSystemChannel(parser, new File(filePath));
         ReconciliationDAO sourceDao = new ReconciliationDAOImpl(sourceChannel);
         return sourceDao.findAll();

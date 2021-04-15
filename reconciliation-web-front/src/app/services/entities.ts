@@ -12,3 +12,15 @@ export interface MatchEntity {
   currency: string;
   valueDate: string;
 }
+
+export interface UserActivity {
+  username: string;
+  hitInformation: HitInformation[];
+}
+
+export interface HitInformation {
+  id: number;
+  activity: string;
+  requestIpAddr: string;
+  date: string;
+}

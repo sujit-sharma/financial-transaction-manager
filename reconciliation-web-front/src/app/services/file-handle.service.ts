@@ -27,7 +27,6 @@ export class FileHandleService {
   }
 
    doCompare() {
-    console.log('/api/compare');
     return this.http.get(`${environment.baseURL}/api/compare`);
   }
 }

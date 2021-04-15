@@ -4,13 +4,14 @@ import {environment} from "../../environments/environment";
 import {Router} from "@angular/router";
 
 import jwt_decode from 'jwt-decode';
+import {UserActivity} from "./entities";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  public userActivityResponse: any;
   constructor(private http: HttpClient,
               private router: Router) { }
 
@@ -33,7 +34,6 @@ export class AuthService {
     return jwt_decode(token);
   }
 
-
   private isTokenValid(): boolean {
     let token = localStorage.getItem('authToken');
     if(token){
@@ -50,13 +50,7 @@ export class AuthService {
     return decodedToken.exp;
   }
 
-  findUsersActivity() {
-    this.http.get(`${environment.baseURL}/api/user/activity`)
-      .subscribe((data) => {
-        this.userActivityResponse = data;
-        console.log("Request for User Activity" + JSON.stringify(this.userActivityResponse));
-        this.router.navigate(['/usersActivity']);
-      })
-
+  findUsersActivity(): Observable<UserActivity[]> {
+    return this.http.get<UserActivity[]>(`${environment.baseURL}/api/user/activity`)
   }
 }

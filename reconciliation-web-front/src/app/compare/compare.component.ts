@@ -38,7 +38,7 @@ export class CompareComponent implements OnInit {
     if(this.form.valid) {
       this.fileHandleService.comparisonResult = await this.fileHandleService.doCompare().toPromise();
       console.log('Comparison Success Success');
-      console.log('Result of comparison is '+JSON.stringify(this.fileHandleService.comparisonResult.MATCHING));
+      console.log('result is ' + JSON.stringify(this.fileHandleService.comparisonResult));
       this.router.navigate(['/result']);
     }
 

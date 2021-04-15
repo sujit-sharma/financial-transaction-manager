@@ -9,6 +9,7 @@ import com.sujit.reconciliationwebapp.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,8 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -80,10 +80,10 @@ public class AuthController {
         userActivityRepository.save(userActivity);
     }
 
-    @GetMapping("/activity")
+    @GetMapping(value = "/activity", produces = { MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> publishUserActivity(){
         List<UserActivity> userActivity = userActivityRepository.findAll();
-        return ResponseEntity.ok().body(userActivity);
+        return ResponseEntity.ok().body(userActivity.toArray());
 
     }
 
